@@ -504,11 +504,6 @@ def _rbe_autoconfig_impl(ctx):
         ctx.report_progress("validating host tools")
         docker_tool_path = validate_host(ctx)
 
-        if not ctx.attr.pull:
-            result = ctx.execute([docker_tool_path, "images", "-q", image_name])
-            if result.return_code != 0 or not result.stdout.splitlines():
-                fail("'pull=False' but the container is not available locally")
-
         if ctx.attr.pull:
             # Pull the image using 'docker pull'
             pull_image(ctx, docker_tool_path, image_name)
@@ -523,6 +518,10 @@ def _rbe_autoconfig_impl(ctx):
                 digest = image_name.split("@")[1]
                 print("Image with given tag `%s` is resolved to '%s', digest is '%s'" %
                       (ctx.attr.tag, image_name, digest))
+        else:
+            result = ctx.execute([docker_tool_path, "images", "-q", image_name])
+            if result.return_code != 0 or not result.stdout.splitlines():
+                fail("'pull=False' but the container is not available locally")
 
     # Get the value of JAVA_HOME to set in the produced
     # java_runtime
