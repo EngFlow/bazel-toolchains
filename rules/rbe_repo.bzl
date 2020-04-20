@@ -987,7 +987,7 @@ def rbe_autoconfig(
           Should not be set if 'digest' is used.
           Must be set together with 'registry' and 'repository'.
           Note if you use any tag other than 'latest' (w/o specifiyng 'base_container_digest')
-          configs will need to be generated, and a container will need to be pulled.
+          configs will need to be generaed, and a container will need to be pulled.
           Note using 'latest' will default to the 'latest_container'
           defined in the 'toolchain_config_suite_spec'
       toolchain_config_suite_spec: Optional. Defaults to using @bazel_toolchains as
